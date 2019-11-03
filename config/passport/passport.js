@@ -13,7 +13,7 @@ module.exports = function(passport) {
 
   passport.deserializeUser(function(id, done) {
     if (!id.isAdmin) {
-      Guest.findById(id.id).then(function(user) {
+      Guest.findByPk(id.id).then(function(user) {
         if (user) {
           done(null, user.get());
         }
@@ -22,7 +22,7 @@ module.exports = function(passport) {
       });
     }
     else if (id.isAdmin) {
-      Admin.findById(id.id).then(function(user) {
+      Admin.findByPk(id.id).then(function(user) {
         if (user) {
           done(null, user.get());
         }
