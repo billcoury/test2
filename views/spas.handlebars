@@ -1,16 +1,16 @@
 <div class="container">
   <div style="margin-right: 25px; margin-top: 25px;">
-      <h2 class="text-center"><img style="height: 120px" src="assets/img/og-favicon.png"> Luxe Restaurant</h1><br>
-      <h4 class="text-center">Dine with gorgeous views!</h2>
+      <h2 class="text-center"><img style="height: 120px" src="assets/img/og-favicon.png"> Luxe Spa</h1><br>
+      <h4 class="text-center">Induldge in our spa services!</h2>
       <hr>
-      <h4 class="text-center">We have limited tables! Please make your reservation well in advance.</h2>
+      <h4 class="text-center">Pamper yourself! Please make your reservation well in advance.</h2>
       <br>
   </div>
 
   {{!--adding a reservation --}}
   <div class="row">
     <div class="col-md-8 col-md-offset-2">
-      <form class="create-update-form" action="/tables" method="POST">
+      <form class="create-update-form" action="/spas" method="POST">
       {{!-- section to add tables --}}
       <div class="form-group col-xs-4">
         <label for="res-name">Name</label>
@@ -33,9 +33,9 @@
         <p class="validate" id="res-time-validate" style="display:none;">Please enter a reservation time. (hhmm)</p>
       </div>
       <div class="form-group col-xs-4">
-        <label for="res-number">Number in Party</label>
-        <input type="number" class="form-control" id="res-number" name="num_party" placeholder="Number in Party">
-        <p class="validate" id="num-party-validate" style="display:none;">Please enter number in party.</p>
+        <label for="res-number">Choose your service</label>
+        <input type="text" class="form-control" id="service" name="service" placeholder="Service">
+        <p class="validate" id="service-validate" style="display:none;">Please enter a service.</p>
       </div>
       <button type="submit" class="btn btn-med btn-secondary btn-lg" onClick="return empty()">Submit</button>
       </form> <br>
@@ -45,16 +45,16 @@
     <div class="col-md-8 col-md-offset-2">
       <div class="panel-panel default">
         <ul class="list-group">
-        {{#each tables}}
+        {{#each spas}}
           {{#if this.available}}
           <li class="list-group-item">
             <div class="input-group">
               <p class="lead">Your Reservation has been confirmed. <br>
-              Your table # is {{this.id}} <br>
+              Your Spa confirmation # is {{this.id}} <br>
               Name: {{this.name}} <br>
-              Number in Party: {{this.num_party}} <br>
+              Service: {{this.service}} <br>
               Reservation Time: {{this.res_time}}</p>
-              <form action="/tables/{{this.id}}?_method=DELETE" method="POST">
+              <form action="/spas/{{this.id}}?_method=DELETE" method="POST">
               <button type="submit" class="btn btn-big btn-secondary btn-lg" id="trash">Cancel<span class="  glyphicon glyphicon-trash"></span></button>
             </form>
             </div>
@@ -67,7 +67,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-    {{#each tables}}
+    {{#each spas}}
         {{#if this.available}}
           <div class="room-reserved">{{this.id}}</div>
         {{/if}} 
@@ -94,7 +94,7 @@
     var email = $("#res-email").val();
     var phone = $("#res-phone").val();
     var name = $("#res-name").val();
-    var number = $("#res-number").val();
+    var service = $("#service").val();
     var time = $("#res-time").val();
     var validate = true;
     if (!email) {
@@ -125,12 +125,12 @@
     else if (time) {
       $("#res-time-validate").hide();
     }
-    if (!number) {
-      $("#num-party-validate").show();
+    if (!name) {
+      $("#service-validate").show();
       validate = false;
     }
-    else if (number) {
-      $("#num-party-validate").hide();
+    else if (name) {
+      $("#service-validate").hide();
     }
     return validate;
   }

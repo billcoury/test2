@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-md-12">
+    <form id="search-form">
+      <label for="name">Search For Spa Reservation:</label>
+      <div class="input-group">
+        <input class="form-control" type="text" id="name" name="name">
+        <span class="input-group-btn">
+          <button class="btn btn-default" id="search-btn" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</button>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div id="search-spas"></div>
+  </div>
+</div>
+
+<h1>All Spa Rooms</h1>
+
+<div class="row">
+  <div class="col-md-12">
+  {{#each spas}}
+    <a href="/admin/spas/id/{{this.id}}">
+      {{#if this.available}}
+          <div class="room-reserved">{{this.id}}</div>
+        {{/if}}
+    </a>
+  {{/each}}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="sm-room-reserved"></div>
+    <p>Reserved</p>
+  </div>
+</div>
+<a href="/admin/menu"><button type="back" class="btn btn-default">Manager Menu</button></a>
+<div class="row" style="padding-bottom:20px;"></div>
+<script>
+  $("#search-btn").on("click", function() {
+    event.preventDefault();
+    $.post("/admin/spas-admin", $("#search-form").serialize(), function(result) {
+      result.forEach(function(val) {
+        var newDiv = $("<div/>");
+        newDiv.addClass("well");
+        var name = $("<p/>");
+        name.html("<strong>Name:</strong> " + val.name);
+        var phone = $("<p/>");
+        phone.html("<strong>Phone:</strong> " + val.phone);
+        var email = $("<p/>");
+        email.html("<strong>Email:</strong> " + val.email);
+        var res_time = $("<p/>");
+        res_time.html("<strong>Reservation Time:</strong> " + val.res_time);
+        var service = $("<p/>");
+        service.html("<strong>Service:</strong> " + val.service);
+        newDiv.append(name);
+        newDiv.append(phone);
+        newDiv.append(email);
+        newDiv.append(res_time);
+        newDiv.append(service);
+        $("#search-spas").append(newDiv);
+      });
+    });
+  });
+</script>

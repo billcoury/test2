@@ -179,6 +179,37 @@ module.exports = function(app, passport) {
     });
   });
 
+
+  //spa view for manager
+  app.get('/admin/spas', isLoggedIn, function(req, res) {
+    db.Spa.findAll({}).then(function(result) {
+      res.render("spas-admin", {
+        spas: result
+      });
+    });
+  });
+
+  app.post('/admin/spas-admin', isLoggedIn, function(req, res) {
+    db.Spa.findAll({
+      where: {
+        name: req.body.name
+      }
+    }).then(function(result) {
+      res.json(result);
+    });
+  });
+
+  app.get('/admin/spas/id/:id', isLoggedIn, function(req, res) {
+    db.Spa.findAll({
+      where: {
+        id: req.params.id
+      },
+    }).then(function(result) {
+      res.render("spa", {
+        spas: result
+      });
+    });
+  });
   // =====================================
   // LOGOUT ==============================
   // =====================================

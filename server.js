@@ -35,6 +35,7 @@ app.use(express.static('public'));
 app.use(require('./controllers/index_controller'));
 app.use(require('./controllers/guest_controller'));
 app.use(require('./controllers/table_controller'));
+app.use(require('./controllers/spa_controller'));
 
 require('./controllers/guest_auth_controller')(app, passport);
 require('./controllers/admin_auth_controller')(app, passport);
